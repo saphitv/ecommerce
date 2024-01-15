@@ -1,8 +1,9 @@
 import { Resend } from "resend";
+import {getBaseUrl} from "@/lib/utils";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const domain = process.env.NEXT_PUBLIC_APP_URL;
+const domain = getBaseUrl()
 
 export const sendTwoFactorTokenEmail = async (
     email: string,
