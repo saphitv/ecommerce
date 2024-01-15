@@ -14,8 +14,6 @@ export default auth((req) => {
     const { nextUrl } = req;
     const isLoggedIn = !!req.auth;
 
-    console.log(publicRoutes, authRoutes, nextUrl.pathname);
-
     const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
     const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
     const isAuthRoute = authRoutes.includes(nextUrl.pathname);
@@ -50,5 +48,5 @@ export default auth((req) => {
 
 // Optionally, don't invoke Middleware on some paths
 export const config = {
-    matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+    matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
 }

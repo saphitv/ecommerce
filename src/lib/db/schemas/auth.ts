@@ -1,9 +1,8 @@
 import {
     int,
     timestamp,
-    mysqlTable,
     primaryKey,
-    varchar, mysqlEnum, uniqueIndex,
+    varchar, mysqlEnum, uniqueIndex, mysqlTableCreator,
 } from "drizzle-orm/mysql-core"
 import type { AdapterAccount } from "@auth/core/adapters"
 
@@ -12,6 +11,8 @@ export enum UserRoleEnum {
     USER = "USER",
     ADMIN = "ADMIN",
 }
+
+export const mysqlTable = mysqlTableCreator((name) => `${process.env.DB_PREFIX}${name}`);
 
 export const users = mysqlTable("user", {
     id: varchar("id", { length: 255 }).notNull().primaryKey(),

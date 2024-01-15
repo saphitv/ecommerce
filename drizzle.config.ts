@@ -6,6 +6,8 @@ export default {
     out: "./src/lib/db/migrations",
     driver: "mysql2",
     dbCredentials: {
-        uri: "mysql://root:@localhost:3306/next-auth",
+        //uri: process.env.LOCAL_DATABASE_URL,
+        uri: process.env.DATABASE_URL_DEV!,
     },
+    tablesFilter: [process.env.DB_PREFIX + "*"],
 }   satisfies Config;
