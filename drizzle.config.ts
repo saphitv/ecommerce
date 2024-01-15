@@ -7,7 +7,7 @@ export default {
     driver: "mysql2",
     dbCredentials: {
         //uri: process.env.LOCAL_DATABASE_URL,
-        uri: process.env.DATABASE_URL_DEV!,
+        uri: process.env.DATABASE_URL!,
     },
     tablesFilter: [process.env.DB_PREFIX + "*"],
 }   satisfies Config;
