@@ -10,9 +10,8 @@ export default function NavBar(){
 
     const pages = [
         /* { name: 'Dashboard', href: '/admin', icon: icons.HomeIcon }, */
-        { name: 'Products', href: '/admin/product', icon: icons.FileTextIcon },
-        { name: 'Add Product', href: '/admin/product/add', icon: icons.PlusIcon },
-        { name: 'User', href: '/settings', icon: icons.PersonIcon}
+        { name: 'Settings', href: '/settings', icon: icons.GearIcon },
+        { name: 'Admin', href: '/admin', icon: icons.AccessibilityIcon}
     ]
 
     return (
