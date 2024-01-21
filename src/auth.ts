@@ -8,6 +8,10 @@ import { getAccountByUserId } from "@/lib/db/data/account";
 import {DrizzleAdapter} from "@auth/drizzle-adapter";
 import {twoFactorConfirmations, type UserRole, users} from "@/lib/db/schemas/auth";
 import {eq} from "drizzle-orm";
+import {mysqlTableCreator} from "drizzle-orm/mysql-core";
+
+export const mysqlTable = mysqlTableCreator((name) => `${process.env.DB_PREFIX}${name}`);
+
 
 export const {
     handlers: { GET, POST },
@@ -90,7 +94,7 @@ export const {
             return token;
         }
     },
-    adapter: DrizzleAdapter(db),
+    adapter: DrizzleAdapter(db, mysqlTable),
     session: { strategy: "jwt" },
     ...authConfig,
 });

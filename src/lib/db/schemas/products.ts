@@ -1,10 +1,12 @@
-import {int, mysqlTable, primaryKey, timestamp, varchar} from "drizzle-orm/mysql-core";
+import {int, mysqlTableCreator, primaryKey, timestamp, varchar} from "drizzle-orm/mysql-core";
 import {users} from "@/lib/db/schemas/auth";
 import {createInsertSchema} from "drizzle-zod";
 import { type InferSelectModel } from 'drizzle-orm'
 import {z} from "zod";
 
-export const products = mysqlTable(process.env.DB_PREFIX + "products", {
+export const mysqlTable = mysqlTableCreator((name) => `${process.env.DB_PREFIX}${name}`);
+
+export const products = mysqlTable("products", {
     id: int("id").notNull().primaryKey().autoincrement(),
     name: varchar("name", {length: 255}).notNull(),
     description: varchar("description", {length: 255}).notNull(),
