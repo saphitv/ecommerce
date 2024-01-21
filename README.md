@@ -1,36 +1,107 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Come iniziare
 
-## Getting Started
+Prima di poter iniziare a sviluppare è necessario installare le dipendenze del progetto. Per farlo è necessario avere installato [Node.js](https://nodejs.org/en/) e [npm](https://www.npmjs.com/).
+Come alternativa per npm c'è [bun](https://bun.sh/).
 
-First, run the development server:
+Dopo aver installato npm o bun, installare le dipendenze del progetto con il comando:
+```bash
+npm install
+# or 
+bun install
+```
 
+Successivamente è necessario creare un file `.env` nella root del progetto con il seguente contenuto:
+```.dotenv
+# chiave segreta per l'autenticazione, si può generare con il comando `openssl rand -base64 32`
+AUTH_SECRET=
+
+# Chiavi per i vari provider di autenticazione
+# - Google
+# - GitHub
+
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
+
+# Chiave per il serzivizio di invio email
+RESEND_API_KEY=
+
+
+# Prefisso per le tabelle del database
+DB_PREFIX=next_auth_
+
+# Se si utilizza un database locale 
+# (per rendere effettive i cambiamenti bisogna modificare il codice in db/index.ts e in drizzle.config.ts)
+DB_HOST=127.0.0.1
+DB_PORT=3306
+USER=root
+DATABASE=
+PASSWORD=
+LOCAL_DATABASE_URL=mysql://root:@localhost:3306/next-auth
+
+# Se si utilizza planetscale come database remoto
+DATABASE_URL=
+DATABASE_URL_DEV=
+
+# Chiavi per uploadthing (servizio di upload immagini)
+UPLOADTHING_SECRET=
+UPLOADTHING_APP_ID=
+```
+
+### Link per ottenere le chiavi
+- [Google](https://console.cloud.google.com/)
+- [GitHub](https://github.com/settings/apps)
+- [Uploadthing](https://uploadthing.com/)
+- [Resend](https://resend.com/)
+- [Planetscale](https://planetscale.com/)
+
+Come URL di callback per i provider di autenticazione bisogna inserire `http://localhost:3000/api/auth/callback/<provider>`.
+
+### Database
+Prima di generare la struttura assicurarsi che non ci siano file generati nella path `src/lib/db/migrations/*`. 
+Per creare la struttura nel database è necessario eseguire il comando:
+```bash
+npm run db:generate & npm run db:migrate
+# or
+bun run db:generate & bun run db:migrate
+```
+
+## Sviluppo
+Per avviare il server di sviluppo è necessario eseguire il comando:
 ```bash
 npm run dev
 # or
-yarn dev
-# or
-pnpm dev
-# or
 bun dev
 ```
+Successivamente aprire il browser all'indirizzo [http://localhost:3000](http://localhost:3000).
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Bug noti in sviluppo
+- Quando si verifica un token nella route `/new-verification` la pagina viene ricaricata 2 volte. Nel primo caso il token viene verificato e cancellato, nel secondo caso non esistendo più il token viene mostrato un errore. La sessione viene creata quindi non è un problema. Inoltre questo problema non si presenta in produzione.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Build
+Per generare la build del progetto è necessario eseguire il comando:
+```bash
+npm run build
+# or
+bun build
+```
+# Informazioni
+## Struttura del progetto
+Il progetto è diviso in nelle seguenti cartelle:
+- `src/app`: ogni file chiamato page.tsx in questa cartella rappresenta una pagina del sito.
+- `src/lib`: contiene le librerie utilizzate dal progetto.
+- `src/components`: contiene i componenti riutilizzabili utilizzati in questo progetto.
+- `src/actions`: contiene tutte le server action, ovvero le funzioni che vengono eseguite dal server.
+- `src/hooks`: contiene tutti gli hooks custom utilizzati in questo progetto.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Librerie utilizzate
+- [Next.js](https://nextjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Drizzle](https://orm.drizzle.team/)
+- [Auth.js](https://authjs.dev/)
+- [Uploadthing](https://uploadthing.com/)
+- [Resend](https://resend.com/)
+- [Planetscale](https://planetscale.com/)
+- [Bun](https://bun.sh/)
