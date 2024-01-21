@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/lib/db";
-import { getUserByEmail } from "@/lib/db/data/user";
+import {getUserByEmail, getUserById} from "@/lib/db/data/user";
 import { getVerificationTokenByToken } from "@/lib/db/data/verification-token";
 import {users, verificationTokens} from "@/lib/db/schemas/auth";
 import {eq} from "drizzle-orm";
@@ -19,7 +19,13 @@ export const newVerification = async (token: string) => {
         return { error: "Token has expired!" };
     }
 
-    const existingUser = await getUserByEmail(existingToken.email);
+    let existingUser
+
+    if(existingToken.userId){
+        existingUser = await getUserById(existingToken.userId);
+    } else {
+        existingUser = await getUserByEmail(existingToken.email);
+    }
 
     if (!existingUser) {
         return { error: "Email does not exist!" };

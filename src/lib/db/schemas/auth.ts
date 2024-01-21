@@ -63,11 +63,13 @@ export const verificationTokens = mysqlTable(
     {
         id: int("id").primaryKey().autoincrement(),
         email: varchar("email", { length: 255 }).notNull(),
+        userId: varchar("userId", { length: 255 }).references(() => users.id, { onDelete: "cascade" }),
         token: varchar("token", { length: 255 }).notNull(),
         expires: timestamp("expires", { mode: "date" }).notNull(),
     },
     (table) => ({
-        compoundKey: uniqueIndex('email_token').on(table.email, table.token),
+        ui_token: uniqueIndex('token').on(table.token),
+        ui_email_user: uniqueIndex('email_user').on(table.email, table.userId),
     })
 )
 
@@ -80,7 +82,7 @@ export const passwordResetTokens = mysqlTable(
         expires: timestamp("expires", { mode: "date" }).notNull(),
     },
     (table) => ({
-        compoundKey: uniqueIndex('email_token').on(table.email, table.token),
+        unique: uniqueIndex('email_token').on(table.email, table.token),
         })
 )
 

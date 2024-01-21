@@ -3,7 +3,7 @@ import {UserRoleEnum} from "@/lib/db/schemas/auth";
 
 export const SettingsSchema = z.object({
     name: z.optional(z.string()),
-    isTwoFactorEnabled: z.optional(z.boolean()),
+    isTwoFactorEnabled: z.onumber(),
     role: z.enum([UserRoleEnum.ADMIN, UserRoleEnum.USER]),
     email: z.optional(z.string().email()),
     password: z.optional(z.string().min(6)),
@@ -29,6 +29,18 @@ export const SettingsSchema = z.object({
         message: "Password is required!",
         path: ["password"]
     })
+    .refine(data => {
+        if(data.isTwoFactorEnabled == 0 || data.isTwoFactorEnabled == 1) {
+            return true;
+        }
+
+        return false;
+    }, {
+        message: "Incompatible value for Two factor authentication",
+        path: ["isTwoFactorEnabled"]
+
+    })
+
 
 export const NewPasswordSchema = z.object({
     password: z.string().min(6, {

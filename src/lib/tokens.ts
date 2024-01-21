@@ -7,6 +7,7 @@ import { getPasswordResetTokenByEmail } from "@/lib/db/data/password-reset-token
 import {getTwoFactorTokenByEmail, getTwoFactorTokenByToken} from "@/lib/db/data/two-factor-token";
 import {passwordResetTokens, twoFactorTokens, verificationTokens} from "@/lib/db/schemas/auth";
 import {eq} from "drizzle-orm";
+import {currentUser} from "@/lib/auth";
 
 export const generateTwoFactorToken = async (email: string) => {
     const token = crypto.randomInt(100_000, 1_000_000).toString();
@@ -48,6 +49,9 @@ export const generatePasswordResetToken = async (email: string) => {
 }
 
 export const generateVerificationToken = async (email: string) => {
+    const user = await currentUser()
+
+
     const token = uuidv4();
     const expires = new Date(new Date().getTime() + 3600 * 1000);
 
@@ -59,6 +63,7 @@ export const generateVerificationToken = async (email: string) => {
 
     await db.insert(verificationTokens).values({
         email,
+        userId: user?.id,
         token,
         expires,
     }).execute();

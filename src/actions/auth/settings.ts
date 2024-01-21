@@ -42,11 +42,14 @@ export const settings = async (
             return { error: "Email already in use!" }
         }
 
+        if(!user.email)
+            return { error: "Something when wrong, check your initial email" }
+
         const verificationToken = await generateVerificationToken(
             values.email
         );
         await sendVerificationEmail(
-            verificationToken.email,
+            values.email,
             verificationToken.token,
         );
 
