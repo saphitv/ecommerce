@@ -9,5 +9,5 @@ export default {
         //uri: process.env.LOCAL_DATABASE_URL,
         uri: process.env.DATABASE_URL!,
     },
-    tablesFilter: [process.env.DB_PREFIX + "*"],
+    // tablesFilter: [process.env.DB_PREFIX + "*"],
 }   satisfies Config;

@@ -37,6 +37,5 @@ declare global {
 // const db = globalThis.db || drizzleMysql(pool);
 const db = globalThis.db || drizzlePlanetscale(pool, { schema: schemas});
 
-if (process.env.NODE_ENV !== "development") globalThis.db = db;
 
 export {db}
