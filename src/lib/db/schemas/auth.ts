@@ -2,7 +2,7 @@ import {
     int,
     timestamp,
     primaryKey,
-    varchar, mysqlEnum, uniqueIndex, mysqlTableCreator,
+    varchar, mysqlEnum, uniqueIndex, mysqlTable
 } from "drizzle-orm/mysql-core"
 import type { AdapterAccount } from "@auth/core/adapters"
 
@@ -12,9 +12,8 @@ export enum UserRoleEnum {
     ADMIN = "ADMIN",
 }
 
-export const mysqlTable = mysqlTableCreator((name) => `${process.env.DB_PREFIX}${name}`);
 
-export const users = mysqlTable("user", {
+export const users = mysqlTable(process.env.DB_PREFIX + "user", {
     id: varchar("id", { length: 255 }).notNull().primaryKey(),
     name: varchar("name", { length: 255 }),
     email: varchar("email", { length: 255 }).notNull().unique(),
@@ -27,7 +26,7 @@ export const users = mysqlTable("user", {
 })
 
 export const accounts = mysqlTable(
-    "account",
+    process.env.DB_PREFIX + "account",
     {
         userId: varchar("userId", { length: 255 })
             .notNull()
@@ -50,7 +49,7 @@ export const accounts = mysqlTable(
     })
 )
 
-export const sessions = mysqlTable("session", {
+export const sessions = mysqlTable(process.env.DB_PREFIX + "session", {
     sessionToken: varchar("sessionToken", { length: 255 }).notNull().primaryKey(),
     userId: varchar("userId", { length: 255 })
         .notNull()
@@ -59,7 +58,7 @@ export const sessions = mysqlTable("session", {
 })
 
 export const verificationTokens = mysqlTable(
-    "verificationToken",
+    process.env.DB_PREFIX + "verificationToken",
     {
         id: int("id").primaryKey().autoincrement(),
         email: varchar("email", { length: 255 }).notNull(),
@@ -74,7 +73,7 @@ export const verificationTokens = mysqlTable(
 )
 
 export const passwordResetTokens = mysqlTable(
-    "passwordResetToken",
+    process.env.DB_PREFIX + "passwordResetToken",
     {
         id: int("id").primaryKey().autoincrement(),
         email: varchar("email", { length: 255 }).notNull(),
@@ -87,7 +86,7 @@ export const passwordResetTokens = mysqlTable(
 )
 
 export const twoFactorTokens = mysqlTable(
-    "twoFactorToken",
+    process.env.DB_PREFIX + "twoFactorToken",
     {
         id: int("id").primaryKey().autoincrement(),
         email: varchar("email", { length: 255 }).notNull(),
@@ -100,7 +99,7 @@ export const twoFactorTokens = mysqlTable(
 )
 
 export const twoFactorConfirmations = mysqlTable(
-    "twoFactorConfirmation",
+    process.env.DB_PREFIX + "twoFactorConfirmation",
     {
         id: int("id").primaryKey().autoincrement(),
         userId: varchar("userId", { length: 255 })

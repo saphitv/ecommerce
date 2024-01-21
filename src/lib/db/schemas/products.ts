@@ -6,7 +6,7 @@ import {z} from "zod";
 
 export const mysqlTable = mysqlTableCreator((name) => `${process.env.DB_PREFIX}${name}`);
 
-export const products = mysqlTable("products", {
+export const products = mysqlTable(process.env.DB_PREFIX + "products", {
     id: int("id").notNull().primaryKey().autoincrement(),
     name: varchar("name", {length: 255}).notNull(),
     description: varchar("description", {length: 255}).notNull(),
