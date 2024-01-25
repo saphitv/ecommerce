@@ -9,7 +9,7 @@ export const mysqlTable = mysqlTableCreator((name) => `${process.env.DB_PREFIX}$
 export const products = mysqlTable("products", {
     id: int("id").notNull().primaryKey().autoincrement(),
     name: varchar("name", {length: 255}).notNull(),
-    description: varchar("description", {length: 255}).notNull(),
+    description: varchar("description", { length: 4000}).notNull(),
     price: int("price").notNull(),
     quantity: int("quantity").notNull(),
     image: varchar("image", {length: 255}).notNull(),

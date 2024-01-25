@@ -19,7 +19,7 @@ import { LogoutButton } from "@/components/auth/logout-button";
 import {Button} from "@/components/ui/button";
 import {useRouter} from "next/navigation";
 
-export const UserButton = () => {
+export const UserButton = ({withoutText}: {withoutText?: boolean}) => {
     const user = useCurrentUser();
     const router = useRouter();
 
@@ -33,7 +33,7 @@ export const UserButton = () => {
                             <FaUser className="text-white" />
                         </AvatarFallback>
                     </Avatar>
-                    <span className="text-center ml-2 font-semibold">{user?.name}</span>
+                    {!withoutText &&<span className="text-center ml-2 font-semibold">{user?.name}</span>}
                 </div>
 
             </DropdownMenuTrigger>
