@@ -3,6 +3,7 @@ import * as icons from "@radix-ui/react-icons";
 import {usePathname, useRouter} from "next/navigation";
 import {cn} from "@/lib/utils";
 import {UserButton} from "@/components/auth/user-button";
+import {ShoppingCart} from "lucide-react";
 
 export default function NavBar(){
     const pathname = usePathname()
@@ -10,6 +11,7 @@ export default function NavBar(){
 
     const pages = [
         /* { name: 'Dashboard', href: '/admin', icon: icons.HomeIcon }, */
+        { name: 'Products', href: '/', icon: ShoppingCart },
         { name: 'Settings', href: '/settings', icon: icons.GearIcon },
         { name: 'Admin', href: '/admin', icon: icons.AccessibilityIcon}
     ]
