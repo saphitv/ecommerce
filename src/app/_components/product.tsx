@@ -14,7 +14,7 @@ export default function Product({product}: {product: Product}){
 
     return (
         <>
-                <Card className="mx-4 my-6 w-72 h-fit shadow-lg cursor-pointer rounded-lg bg-gray-50 p-4">
+                <Card className="flex-1 min-w-64 h-fit shadow-lg cursor-pointer rounded-lg bg-gray-50 p-4">
                     <CardHeader className="p-2">
                         <AspectRatio ratio={16 / 9}>
                             <Image src={product.image} alt={product.name}

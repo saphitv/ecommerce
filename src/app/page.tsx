@@ -6,6 +6,9 @@ import {LoginButton} from "@/components/auth/login-button";
 import {currentUser} from "@/lib/auth";
 import { Navbar } from "@/app/_components/navbar";
 import ProductList from "@/app/_components/products-list";
+import {Separator} from "@/components/ui/separator";
+import Filters from "@/app/_components/filters";
+import SearchSection from "@/app/_components/search-section";
 
 const font = Poppins({
     subsets: ["latin"],
@@ -44,7 +47,16 @@ export default async function Home() {
         {user && (
             <>
                 <Navbar/>
-                <ProductList/>
+                <div className="flex p-4">
+                    <div className="flex-auto">
+                        <SearchSection/>
+                        <ProductList/>
+                    </div>
+
+                    <Separator orientation={"vertical"} className="h-auto"/>
+                    <Filters/>
+                </div>
+
             </>
 
         )}

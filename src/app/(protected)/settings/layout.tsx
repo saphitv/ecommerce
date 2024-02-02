@@ -1,4 +1,5 @@
 import NavBar from "@/app/(protected)/settings/_components/navbar";
+import Providers from "@/components/providers";
 
 
 export default function Example({children}: {children: React.ReactNode}) {
@@ -17,7 +18,9 @@ export default function Example({children}: {children: React.ReactNode}) {
                         <hr/>
                         <NavBar/>
                     </div>
-                    {children}
+                    <Providers>
+                        {children}
+                    </Providers>
                 </div>
         </>
     )

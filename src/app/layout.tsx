@@ -8,6 +8,7 @@ import './globals.css'
 import { Toaster } from "@/components/ui/sonner";
 import "@uploadthing/react/styles.css";
 import {ourFileRouter} from "@/app/api/uploadthing/core";
+import Providers from "@/components/providers";
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -36,7 +37,9 @@ export default async function RootLayout({
               routerConfig={extractRouterConfig(ourFileRouter)}
           />
             <Toaster richColors={true}/>
-            {children}
+          <Providers>
+              {children}
+          </Providers>
           </body>
         </html>
       </SessionProvider>
