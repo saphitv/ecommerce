@@ -4,7 +4,7 @@ import {cn} from "@/lib/utils";
 import { Poppins} from "next/font/google";
 import {LoginButton} from "@/components/auth/login-button";
 import {currentUser} from "@/lib/auth";
-import { Navbar } from "@/app/_components/navbar";
+import { Navbar } from "@/components/navbar/navbar";
 import ProductList from "@/app/_components/products-list";
 import {Separator} from "@/components/ui/separator";
 import Filters from "@/app/_components/filters";
@@ -47,7 +47,7 @@ export default async function Home() {
         {user && (
             <>
                 <Navbar/>
-                <div className="flex p-4">
+                <div className="flex p-4" style={{height: "calc(100vh - 4rem)"}}>
                     <div className="flex-auto">
                         <SearchSection/>
                         <ProductList/>

@@ -18,7 +18,7 @@ export default function ProductList(){
                 {isSuccess && prods.map((prod) => (
                     <Product key={prod.id} product={prod}/>
                 ))}
-                {isLoading && Array(10).fill(0).map(i => (
+                {isLoading && Array(10).fill(0).map((_, i) => (
                     <div key={i} className="flex-1 min-w-64 shadow-lg rounded-lg h-64 bg-gray-100 animate-pulse"></div>
                 ))}
                 {isError && <div className="text-red-500 flex font-bold text-2xl items-center gap-x-4"><ExclamationTriangleIcon width={20} height={30}/>Something went wrong</div>}

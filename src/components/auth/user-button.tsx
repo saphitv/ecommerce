@@ -18,6 +18,7 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import { LogoutButton } from "@/components/auth/logout-button";
 import {Button} from "@/components/ui/button";
 import {useRouter} from "next/navigation";
+import {ShoppingBagIcon} from "lucide-react";
 
 export const UserButton = ({withoutText}: {withoutText?: boolean}) => {
     const user = useCurrentUser();
@@ -38,15 +39,16 @@ export const UserButton = ({withoutText}: {withoutText?: boolean}) => {
 
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-40" align="end">
-                <span
-                    onClick={() => router.push("/settings")}
-                >
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={() => router.push('/orders')}>
+                    <ShoppingBagIcon className="h-4 w-4 mr-2"/>
+                    Orders
+                </DropdownMenuItem>
 
+
+                <DropdownMenuItem onClick={() => router.push('/settings')}>
                         <GearIcon className="h-4 w-4 mr-2"/>
                         Settings
-            </DropdownMenuItem>
-                    </span>
+                </DropdownMenuItem>
 
             <LogoutButton>
                 <DropdownMenuItem>

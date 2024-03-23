@@ -6,7 +6,7 @@ Come alternativa per npm c'è [bun](https://bun.sh/).
 Dopo aver installato npm o bun, installare le dipendenze del progetto con il comando:
 ```bash
 npm install
-# or 
+# or
 bun install
 ```
 
@@ -31,7 +31,7 @@ RESEND_API_KEY=
 # Prefisso per le tabelle del database
 DB_PREFIX=next_auth_
 
-# Se si utilizza un database locale 
+# Se si utilizza un database locale
 # (per rendere effettive i cambiamenti bisogna modificare il codice in db/index.ts e in drizzle.config.ts)
 DB_HOST=127.0.0.1
 DB_PORT=3306
@@ -59,7 +59,7 @@ UPLOADTHING_APP_ID=
 Come URL di callback per i provider di autenticazione bisogna inserire `http://localhost:3000/api/auth/callback/<provider>`.
 
 ### Database
-Prima di generare la struttura assicurarsi che non ci siano file generati nella path `src/lib/db/migrations/*`. 
+Prima di generare la struttura assicurarsi che non ci siano file generati nella path `src/lib/db/migrations/*`.
 Per creare la struttura nel database è necessario eseguire il comando:
 ```bash
 npm run db:generate & npm run db:migrate
@@ -105,3 +105,8 @@ Il progetto è diviso in nelle seguenti cartelle:
 - [Resend](https://resend.com/)
 - [Planetscale](https://planetscale.com/)
 - [Bun](https://bun.sh/)
+
+comando per reindirizzare il traffico da stripe a localhost
+```bash
+stripe listen --forward-to localhost:3000/api/stripe/webhooks --skip-verify
+```

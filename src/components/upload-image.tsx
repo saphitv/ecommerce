@@ -18,6 +18,7 @@ export default function UploadImage({onUploadComplete}: { onUploadComplete: (res
                     // Do something with the error.
                     toast.error("Upload Failed: Check the file size and try again")
                 }}
+
             />
         </main>
     );

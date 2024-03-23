@@ -36,7 +36,7 @@ export default async function RootLayout({
                */
               routerConfig={extractRouterConfig(ourFileRouter)}
           />
-            <Toaster richColors={true}/>
+            <Toaster richColors={true} duration={4000}/>
           <Providers>
               {children}
           </Providers>

@@ -12,7 +12,6 @@ import {mysqlTableCreator} from "drizzle-orm/mysql-core";
 
 export const mysqlTable = mysqlTableCreator((name) => `${process.env.DB_PREFIX}${name}`);
 
-
 export const {
     handlers: { GET, POST },
     auth,

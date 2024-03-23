@@ -39,7 +39,7 @@ export default function ProductForm() {
                     description: "",
                     price: "",
                     quantity: "",
-                    image: ""
+                    image: "",
                 })
                 router.refresh()
 
@@ -72,7 +72,7 @@ export default function ProductForm() {
                         <FormItem>
                             <FormLabel>Name</FormLabel>
                             <FormControl>
-                                <Input placeholder="Ex. Tommy Jeans T-shirt" {...field} />
+                                <Input placeholder="Ex. Tommy Jeans T-shirt" value={field.value} onChange={field.onChange}/>
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -85,7 +85,7 @@ export default function ProductForm() {
                         <FormItem>
                             <FormLabel>Description</FormLabel>
                             <FormControl>
-                                <Textarea placeholder={'Really comfortable'} className="h-32" {...field}/>
+                                <Textarea placeholder={'Really comfortable'} className="h-32" onChange={field.onChange} value={field.value}/>
                             </FormControl>
                             <FormMessage />
                         </FormItem>

@@ -59,7 +59,7 @@ export const sessions = mysqlTable("session", {
 })
 
 export const verificationTokens = mysqlTable(
-    process.env.DB_PREFIX + "verificationToken",
+    "verificationToken",
     {
         id: int("id").primaryKey().autoincrement(),
         email: varchar("email", { length: 255 }).notNull(),
