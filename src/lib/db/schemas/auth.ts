@@ -1,71 +1,68 @@
-import {
-    int,
-    timestamp,
-    primaryKey,
-    varchar, mysqlEnum, uniqueIndex, mysqlTableCreator
-} from "drizzle-orm/mysql-core"
-import type { AdapterAccount } from "@auth/core/adapters"
+import type {AdapterAccount} from "@auth/core/adapters"
+import {integer, primaryKey, sqliteTableCreator, text, uniqueIndex} from "drizzle-orm/sqlite-core";
+import {sql} from "drizzle-orm";
 
 export type UserRole = "USER" | "ADMIN"
+
 export enum UserRoleEnum {
     USER = "USER",
     ADMIN = "ADMIN",
 }
 
-export const mysqlTable = mysqlTableCreator((name) => `${process.env.DB_PREFIX}${name}`);
+export const sqliteTable = sqliteTableCreator((name) => `${process.env.DB_PREFIX}${name}`);
 
-export const users = mysqlTable("user", {
-    id: varchar("id", { length: 255 }).notNull().primaryKey(),
-    name: varchar("name", { length: 255 }),
-    email: varchar("email", { length: 255 }).notNull().unique(),
-    emailVerified: timestamp("emailVerified", { mode: "date", fsp: 3 }).defaultNow(),
-    image: varchar("image", { length: 255 }),
-    password: varchar("password", { length: 255 }),
-    role: mysqlEnum("role", ["USER", "ADMIN"]).default("USER"),
-    isTwoFactorEnabled: int("isTwoFactorEnabled").default(0),
+export const users = sqliteTable("user", {
+    id: text("id", {length: 255}).notNull().primaryKey(),
+    name: text("name", {length: 255}),
+    email: text("email", {length: 255}).notNull().unique(),
+    emailVerified: integer("emailVerified", {mode: "timestamp"}).default(sql`(CURRENT_TIMESTAMP)`),
+    image: text("image", {length: 255}),
+    password: text("password", {length: 255}),
+    role: text("role", {enum: ["USER", "ADMIN"]}).default("USER"),
+    isTwoFactorEnabled: integer("isTwoFactorEnabled", {mode: "boolean"}).default(false),
 
 })
 
-export const accounts = mysqlTable(
+export const accounts = sqliteTable(
     "account",
     {
-        userId: varchar("userId", { length: 255 })
+        userId: text("userId", {length: 255})
             .notNull()
-            .references(() => users.id, { onDelete: "cascade" }),
-        type: varchar("type", { length: 255 }).$type<AdapterAccount["type"]>().notNull(),
-        provider: varchar("provider", { length: 255 }).notNull(),
-        providerAccountId: varchar("providerAccountId", { length: 255 }).notNull(),
-        refresh_token: varchar("refresh_token", { length: 255 }),
-        access_token: varchar("access_token", { length: 255 }),
-        expires_at: int("expires_at"),
-        token_type: varchar("token_type", { length: 255 }),
-        scope: varchar("scope", { length: 255 }),
-        id_token: varchar("id_token", { length: 2048 }),
-        session_state: varchar("session_state", { length: 255 }),
+            .references(() => users.id, {onDelete: "cascade"}),
+        type: text("type", {length: 255}).$type<AdapterAccount["type"]>().notNull(),
+        provider: text("provider", {length: 255}).notNull(),
+        providerAccountId: text("providerAccountId", {length: 255}).notNull(),
+        refresh_token: text("refresh_token", {length: 255}),
+        access_token: text("access_token", {length: 255}),
+        expires_at: integer("expires_at"),
+        token_type: text("token_type", {length: 255}),
+        scope: text("scope", {length: 255}),
+        id_token: text("id_token", {length: 2048}),
+        session_state: text("session_state", {length: 255}),
     },
     (account) => ({
-        compoundKey: primaryKey({
+        pk: primaryKey({
             columns: [account.provider, account.providerAccountId],
         }),
     })
 )
 
-export const sessions = mysqlTable("session", {
-    sessionToken: varchar("sessionToken", { length: 255 }).notNull().primaryKey(),
-    userId: varchar("userId", { length: 255 })
+export const sessions = sqliteTable("session", {
+    sessionToken: text("sessionToken", {length: 255}).notNull().primaryKey(),
+    userId: text("userId", {length: 255})
         .notNull()
-        .references(() => users.id, { onDelete: "cascade" }),
-    expires: timestamp("expires", { mode: "date" }).notNull(),
+        .references(() => users.id, {onDelete: "cascade"}),
+    expires: integer("expires", {mode: "timestamp"}).notNull(),
 })
 
-export const verificationTokens = mysqlTable(
+export const verificationTokens = sqliteTable(
     "verificationToken",
     {
-        id: int("id").primaryKey().autoincrement(),
-        email: varchar("email", { length: 255 }).notNull(),
-        userId: varchar("userId", { length: 255 }).references(() => users.id, { onDelete: "cascade" }),
-        token: varchar("token", { length: 255 }).notNull(),
-        expires: timestamp("expires", { mode: "date" }).notNull(),
+        id: integer("id").primaryKey({autoIncrement: true}),
+        email: text("email", {length: 255}).notNull(),
+        userId: text("userId", {length: 255}).references(() => users.id, {onDelete: "cascade"}),
+        token: text("token", {length: 255}).notNull(),
+        expires: integer("expires", {mode: "timestamp"}).notNull(),
     },
     (table) => ({
         ui_token: uniqueIndex('token').on(table.token),
@@ -73,41 +70,40 @@ export const verificationTokens = mysqlTable(
     })
 )
 
-export const passwordResetTokens = mysqlTable(
+export const passwordResetTokens = sqliteTable(
     "passwordResetToken",
     {
-        id: int("id").primaryKey().autoincrement(),
-        email: varchar("email", { length: 255 }).notNull(),
-        token: varchar("token", { length: 255 }).notNull(),
-        expires: timestamp("expires", { mode: "date" }).notNull(),
+        id: integer("id").primaryKey({autoIncrement: true}),
+        email: text("email", {length: 255}).notNull(),
+        token: text("token", {length: 255}).notNull(),
+        expires: integer("expires", {mode: "timestamp"}).notNull(),
     },
     (table) => ({
-        unique: uniqueIndex('email_token').on(table.email, table.token),
-        })
-)
-
-export const twoFactorTokens = mysqlTable(
-    "twoFactorToken",
-    {
-        id: int("id").primaryKey().autoincrement(),
-        email: varchar("email", { length: 255 }).notNull(),
-        token: varchar("token", { length: 255 }).notNull(),
-        expires: timestamp("expires", { mode: "date" }).notNull(),
-    },
-    (table) => ({
-        compoundKey: uniqueIndex('email_token').on(table.email, table.token),
+        unique: uniqueIndex('UQ_passwordResetToken_emailToken').on(table.email, table.token),
     })
 )
 
-export const twoFactorConfirmations = mysqlTable(
+export const twoFactorTokens = sqliteTable(
+    "twoFactorToken",
+    {
+        id: integer("id").primaryKey({autoIncrement: true}),
+        email: text("email", {length: 255}).notNull(),
+        token: text("token", {length: 255}).notNull(),
+        expires: integer("expires", {mode: "timestamp"}).notNull(),
+    },
+    (table) => ({
+        compoundKey: uniqueIndex('UQ_twoFactorTokens_emailToken').on(table.email, table.token),
+    })
+)
+
+export const twoFactorConfirmations = sqliteTable(
     "twoFactorConfirmation",
     {
-        id: int("id").primaryKey().autoincrement(),
-        userId: varchar("userId", { length: 255 })
+        id: integer("id").primaryKey({autoIncrement: true}),
+        userId: text("userId", {length: 255})
             .notNull()
-            .references(() => users.id, { onDelete: "cascade" })
+            .references(() => users.id, {onDelete: "cascade"})
             .unique(),
-
     },
 )
 

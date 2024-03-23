@@ -10,7 +10,7 @@ export const SettingsSchema = z.object({
     newPassword: z.optional(z.string().min(6)),
 })
     .refine((data) => {
-        if (data.password && !data.newPassword) {
+        if ((data.password || data.password == "") && !data.newPassword) {
             return false;
         }
 

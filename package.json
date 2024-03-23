@@ -7,10 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "db:push": "drizzle-kit push:mysql",
+    "db:push": "drizzle-kit push:sqlite",
     "db:studio": "drizzle-kit studio",
-    "db:generate": "drizzle-kit generate:mysql",
-    "db:migrate": "drizzle-kit migrate:mysql"
+    "db:generate": "drizzle-kit generate:sqlite",
+    "db:introspect": "drizzle-kit introspect:sqlite"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^0.3.14",

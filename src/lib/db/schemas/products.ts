@@ -1,61 +1,51 @@
-import {
-  int,
-  mysqlTableCreator,
-  primaryKey,
-  timestamp,
-  unique,
-  uniqueIndex,
-  foreignKey,
-  varchar,
-} from "drizzle-orm/mysql-core";
-import { users } from "@/lib/db/schemas/auth";
-import { createInsertSchema } from "drizzle-zod";
-import { type InferSelectModel } from "drizzle-orm";
-import { z } from "zod";
+import {createInsertSchema} from "drizzle-zod";
+import {type InferSelectModel, sql} from "drizzle-orm";
+import {z} from "zod";
+import {integer, sqliteTableCreator, text, unique} from "drizzle-orm/sqlite-core";
 
-export const mysqlTable = mysqlTableCreator(
+export const sqlitelTable = sqliteTableCreator(
   (name) => `${process.env.DB_PREFIX}${name}`,
 );
 
-export const products = mysqlTable("products", {
-  id: int("id").notNull().primaryKey().autoincrement(),
-  name: varchar("name", { length: 255 }).notNull(),
-  description: varchar("description", { length: 4000 }).notNull(),
-  price: int("price").notNull(),
-  quantity: int("quantity").notNull(),
-  image: varchar("image", { length: 255 }).notNull(),
-  createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
-  updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow(),
-  userId: varchar("userId", { length: 255 }).notNull(),
-  stripeProductId: varchar("stripeProductId", { length: 255 }),
-  stripePriceId: varchar("stripePriceId", { length: 255 }),
+export const products = sqlitelTable("products", {
+  id: integer("id").notNull().primaryKey({autoIncrement: true}),
+  name: text("name", { length: 255 }).notNull(),
+  description: text("description", { length: 4000 }).notNull(),
+  price: integer("price").notNull(),
+  quantity: integer("quantity").notNull(),
+  image: text("image", { length: 255 }).notNull(),
+  createdAt: integer("createdAt", { mode: "timestamp" }).default(sql`(CURRENT_TIMESTAMP)`),
+  updatedAt: integer("updatedAt", { mode: "timestamp" }).default(sql`(CURRENT_TIMESTAMP)`),
+  userId: text("userId", { length: 255 }).notNull(),
+  stripeProductId: text("stripeProductId", { length: 255 }),
+  stripePriceId: text("stripePriceId", { length: 255 }),
 });
 
-export const sales = mysqlTable("sales", {
-  id: int("id").notNull().primaryKey().autoincrement(),
-  userId: varchar("userId", { length: 255 }).notNull(),
-  stripeInvoiceId: varchar("stripeInvoiceId", { length: 255 }).notNull(),
-  stripePaymentIntentId: varchar("stripePaymentIntentId", { length: 255 }),
-  stripePaymentStatus: varchar("stripeStatus", { length: 255 }).notNull(),
-  amount: int("amount").notNull(),
-  createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
-  updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow(),
+export const sales = sqlitelTable("sales", {
+  id: integer("id").notNull().primaryKey({autoIncrement: true}),
+  userId: text("userId", { length: 255 }).notNull(),
+  stripeInvoiceId: text("stripeInvoiceId", { length: 255 }).notNull(),
+  stripePaymentIntentId: text("stripePaymentIntentId", { length: 255 }),
+  stripePaymentStatus: text("stripeStatus", { length: 255 }).notNull(),
+  amount: integer("amount").notNull(),
+  createdAt: integer("createdAt", { mode: "timestamp" }).default(sql`(CURRENT_TIMESTAMP)`),
+  updatedAt: integer("updatedAt", { mode: "timestamp" }).default(sql`(CURRENT_TIMESTAMP)`),
 });
 
-export const productSales = mysqlTable(
+export const productSales = sqlitelTable(
   "productSales",
   {
-    id: int("id").notNull().primaryKey().autoincrement(),
-    productId: int("productId")
+    id: integer("id").notNull().primaryKey({autoIncrement: true}),
+    productId: integer("productId")
       .notNull()
       .references(() => products.id),
-    saleId: int("saleId")
+    saleId: integer("saleId")
       .notNull()
       .references(() => sales.id),
-    quantity: int("quantity").notNull(),
-    unitPrice: int("unitPrice").notNull(),
-    createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
-    updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow(),
+    quantity: integer("quantity").notNull(),
+    unitPrice: integer("unitPrice").notNull(),
+    createdAt: integer("createdAt", { mode: "timestamp" }).default(sql`(CURRENT_TIMESTAMP)`),
+    updatedAt: integer("updatedAt", { mode: "timestamp" }).default(sql`(CURRENT_TIMESTAMP)`),
   },
   (productSale) => ({
     unqiueIndex: unique().on(productSale.productId, productSale.saleId),

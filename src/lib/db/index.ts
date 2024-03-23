@@ -1,7 +1,7 @@
-import { drizzle as drizzlePlanetscale } from "drizzle-orm/planetscale-serverless";
-import { Client } from "@planetscale/database";
+import { drizzle } from "drizzle-orm/libsql";
 import * as productSchema from "./schemas/products";
 import * as authSchema from "./schemas/auth";
+import { createClient } from "@libsql/client";
 
 /* pool = mysql.createPool({
     connectionLimit: 10,
@@ -17,15 +17,10 @@ const schema = {
   ...authSchema,
 };
 
-const pool = new Client({
-  url: process.env.DATABASE_URL,
-}).connection();
+const client = createClient({
+  url: 'http://127.0.0.1:8080',
+  //url: process.env.TURSO_CONNECTION_URL!,
+  //authToken: process.env.TURSO_AUTH_TOKEN!,
+})
 
-declare global {
-  var db: ReturnType<typeof drizzlePlanetscale<typeof schema>> | undefined;
-}
-
-// const db = globalThis.db || drizzleMysql(pool);
-const db = globalThis.db || drizzlePlanetscale(pool, { schema: schema });
-
-export { db };
+export const db = drizzle(client, { schema: schema })
