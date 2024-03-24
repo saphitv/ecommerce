@@ -51,6 +51,7 @@ export const ResetForm = () => {
             headerLabel="Forgot your password?"
             backButtonLabel="Back to login"
             backButtonHref="/login"
+            title='🔐 Reset Password'
         >
             <Form {...form}>
                 <form

@@ -55,6 +55,7 @@ export const NewPasswordForm = () => {
             headerLabel="Enter a new password"
             backButtonLabel="Back to login"
             backButtonHref="/login"
+            title='🔐 New Password'
         >
             <Form {...form}>
                 <form

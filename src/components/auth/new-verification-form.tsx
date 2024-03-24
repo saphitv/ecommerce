@@ -44,6 +44,7 @@ export const NewVerificationForm = () => {
             headerLabel="Confirming your verification"
             backButtonLabel="Back to login"
             backButtonHref="/login"
+            title='🔐 Verification'
         >
             <div className="flex items-center w-full justify-center">
                 {!success && !error && (

@@ -74,6 +74,7 @@ export const LoginForm = () => {
             backButtonLabel="Don't have an account?"
             backButtonHref="/register"
             showSocial
+            title={"🔐 Login"}
         >
             <Form {...form}>
                 <form
