@@ -20,6 +20,8 @@
 .DS_Store
 *.pem
 
+/src/lib/db/migrations
+
 .idea
 
 .env
