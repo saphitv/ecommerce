@@ -5,15 +5,21 @@ import { eq } from "drizzle-orm";
 import { Session } from "next-auth/types";
 
 export async function POST(req: Request) {
-  const sig = req.headers["stripe-signature"];
+  const sig = req.headers.get("stripe-signature");
+
+  if(!sig) {
+    return new Response("No stripe signature", {
+      status: 400,
+    });
+  }
 
   try {
-    event = getServerStripe().webhooks.constructEvent(
+    let event = getServerStripe().webhooks.constructEvent(
       req.body,
       sig,
       process.env.STRIPE_SECRET_KEY,
     );
-  } catch (err: snx) {
+  } catch (err: any) {
     new Response(`Webhook Error: ${err.message}`);
   }
 
@@ -22,9 +28,9 @@ export async function POST(req: Request) {
 
     switch (text.type) {
       //case "charge.succeeded":
-      // is not shure that he payed
+      // is not shure that he paid
       case "checkout.session.completed":
-        // Payment is successful and he payed
+        // Payment is successful and he paid
         const session = text.data.object;
 
         const user = JSON.parse(session.metadata.user) as Session["user"];
@@ -67,7 +73,6 @@ export async function POST(req: Request) {
             // console.log("data inv", data);
 
             await data.forEach(async (line: any) => {
-              // TODO: get product id by, line.price.product
               const product = (
                 await db
                   .select({ id: products.id })
@@ -83,9 +88,11 @@ export async function POST(req: Request) {
                 unitPrice: line.price.unit_amount,
               };
 
+              console.log("line", prodSale);
+
+
               await db.insert(productSales).values(prodSale);
 
-              console.log("line", prodSale);
             });
           },
         );
