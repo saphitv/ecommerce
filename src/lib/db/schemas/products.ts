@@ -4,7 +4,7 @@ import {z} from "zod";
 import {integer, sqliteTableCreator, text, unique} from "drizzle-orm/sqlite-core";
 
 export const sqlitelTable = sqliteTableCreator(
-  (name) => `${process.env.DB_PREFIX}${name}`,
+  (name) => `${name}`,
 );
 
 export const products = sqlitelTable("products", {

@@ -9,7 +9,7 @@ export enum UserRoleEnum {
     ADMIN = "ADMIN",
 }
 
-export const sqliteTable = sqliteTableCreator((name) => `${process.env.DB_PREFIX}${name}`);
+export const sqliteTable = sqliteTableCreator((name) => `${name}`);
 
 export const users = sqliteTable("user", {
     id: text("id", {length: 255}).notNull().primaryKey(),
