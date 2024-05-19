@@ -5,9 +5,9 @@ export default {
   out: "./src/lib/db/migrations",
   driver: "turso",
   dbCredentials: {
-    url: 'http://localhost:8080',
-    // url: process.env.TURSO_CONNECTION_URL!,
-    // authToken: process.env.TURSO_AUTH_TOKEN!,
+    // url: 'http://localhost:8080',
+    url: process.env.TURSO_CONNECTION_URL!,
+    authToken: process.env.TURSO_AUTH_TOKEN!,
   },
   tablesFilter: [process.env.DB_PREFIX + "*"],
 } satisfies Config;

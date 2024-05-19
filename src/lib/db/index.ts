@@ -18,9 +18,9 @@ export const schema = {
 };
 
 const client = createClient({
-  url: 'http://localhost:8080',
-  //url: process.env.TURSO_CONNECTION_URL!,
-  //authToken: process.env.TURSO_AUTH_TOKEN!,
+  // url: 'http://localhost:8080',
+  url: process.env.TURSO_CONNECTION_URL!,
+  authToken: process.env.TURSO_AUTH_TOKEN!,
 })
 
 export const db = drizzle(client, { schema: schema })
