@@ -5,6 +5,7 @@ import {getProducts} from "@/actions/buyers/products";
 import {useQuery} from "@tanstack/react-query";
 import {useSearchParams} from "next/navigation";
 import {ExclamationTriangleIcon} from "@radix-ui/react-icons";
+import {Separator} from "@/components/ui/separator";
 export default function ProductList(){
     const searchParams = useSearchParams()
     const {data: prods, isSuccess, isLoading, isError} = useQuery({
@@ -14,9 +15,12 @@ export default function ProductList(){
 
     return (
         <div className="flex-auto px-4">
-            <div className="flex flex-row flex-wrap gap-6 justify-center ">
+            <div className="flex flex-wrap gap-6 justify-center ">
                 {isSuccess && prods.map((prod) => (
-                    <Product key={prod.id} product={prod}/>
+                    <>
+                        <Product key={prod.id} product={prod}/>
+                    </>
+
                 ))}
                 {isLoading && Array(10).fill(0).map((_, i) => (
                     <div key={i} className="flex-1 min-w-64 shadow-lg rounded-lg h-64 bg-gray-100 animate-pulse"></div>

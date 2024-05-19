@@ -67,6 +67,18 @@ npm run db:generate & npm run db:migrate
 bun run db:generate & bun run db:migrate
 ```
 
+#### Inizializzare prodotti stripe
+Per inizializzare i prodotti stripe è necessario andare nella cartella `src/lib/db/init` e all'interno del file `stripe.ts`: 
+- inserire la secret key di strip
+- modificare l'id statico quando si crea un prodotto
+- in caso modificare l'url del database
+
+Successivamente eseguire il comando seguente comando per poter aggiungere i dati al database.
+```bash
+cd src/lib/db/init
+bun run stripe.ts
+```
+
 ## Sviluppo
 Per avviare il server di sviluppo è necessario eseguire il comando:
 ```bash
@@ -110,3 +122,12 @@ comando per reindirizzare il traffico da stripe a localhost
 ```bash
 stripe listen --forward-to localhost:3000/api/stripe/webhooks --skip-verify
 ```
+
+Avviare il database in fase di sviluppo
+```bash
+turso dev --db-file sqlite.db
+```
+
+# Docker
+Purtroppo a causa di drizzle-studio i certificati ssl non vengono caricati correttamente. Per ovviare questo problema non si può utilizzare docker quando si vuole utilizzare drizzle-studio.
+Per poter utilizzare docker è necessario modificare `src/lib/db/index.ts` e `drizzle.config.ts` e impostare url a `http://db:8080`e non `http://localhost:8080`.

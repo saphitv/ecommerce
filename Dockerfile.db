@@ -1,0 +1,16 @@
+FROM homebrew/brew
+
+WORKDIR /db
+
+RUN brew install tursodatabase/tap/turso
+
+COPY sqlite.db .
+
+
+USER root
+
+RUN chmod 777 sqlite.db
+
+EXPOSE 8080
+
+CMD ["turso", "dev", "--db-file", "sqlite.db"]

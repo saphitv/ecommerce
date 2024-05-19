@@ -1,9 +1,10 @@
 "use client";
 
-import {UploadButton as UploadButtonComponent, UploadDropzone} from "@/lib/uploadthing";
+import {UploadDropzone} from "@/lib/uploadthing";
 import {toast} from "sonner";
 
 export default function UploadImage({onUploadComplete}: { onUploadComplete: (res: any) => void}) {
+
     return (
         <main className="">
             <UploadDropzone
@@ -14,7 +15,7 @@ export default function UploadImage({onUploadComplete}: { onUploadComplete: (res
 
                 }}
 
-                onUploadError={(error: Error) => {
+                onUploadError={(_: Error) => {
                     // Do something with the error.
                     toast.error("Upload Failed: Check the file size and try again")
                 }}

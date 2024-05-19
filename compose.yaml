@@ -1,0 +1,69 @@
+name: e-commerce
+services:
+  app:
+    env_file:
+      - .env
+    image: node:21.3.0
+    working_dir: /home/node/app
+    container_name: nextjs
+    networks:
+      - mynetwork
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/home/node/app
+    depends_on:
+      - db
+    command: sh -c "npm i && npm run dev"
+
+  studio:
+    env_file:
+      - .env
+    image: node:21.3.0
+    working_dir: /home/node/app
+    container_name: drizzle-studio
+    networks:
+      - mynetwork
+    ports:
+      - 4983:4983
+    volumes:
+      - /Users/simonmaggini/Downloads/test:/home/node/app
+    depends_on:
+      - db
+    command: sh -c "npm i && npx drizzle-kit studio"
+
+  db:
+    build:
+      dockerfile: Dockerfile.db
+    container_name: db
+    volumes:
+      - turso-sqlite:/db
+    networks:
+      - mynetwork
+    ports:
+      - 8080:8080
+
+  old-studio:
+#    build:
+#      dockerfile: Dockerfile.studio
+    image: node:21.3.0
+    container_name: old-drizzle-studio
+    ports:
+      - 3002:3001
+    env_file:
+      - .env
+    networks:
+      - mynetwork
+    volumes:
+      - ./drizzle.config.ts:/app/drizzle.config.ts
+      - ./src/lib/db/schemas:/app/src/lib/db/schemas
+    depends_on:
+      - db
+
+networks:
+  mynetwork:
+    driver: bridge
+
+volumes:
+  turso-sqlite:
+    driver: local

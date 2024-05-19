@@ -12,13 +12,13 @@ import { createClient } from "@libsql/client";
     password: process.env.PASSWORD,
 }); */
 
-const schema = {
+export const schema = {
   ...productSchema,
   ...authSchema,
 };
 
 const client = createClient({
-  url: 'http://127.0.0.1:8080',
+  url: 'http://localhost:8080',
   //url: process.env.TURSO_CONNECTION_URL!,
   //authToken: process.env.TURSO_AUTH_TOKEN!,
 })

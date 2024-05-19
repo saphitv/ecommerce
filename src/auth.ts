@@ -1,19 +1,19 @@
 import NextAuth from "next-auth"
 
-import { db } from "@/lib/db";
+import {db} from "@/lib/db";
 import authConfig from "@/auth.config";
-import { getUserById } from "@/lib/db/data/user";
-import { getTwoFactorConfirmationByUserId } from "@/lib/db/data/two-factor-confirmation";
-import { getAccountByUserId } from "@/lib/db/data/account";
+import {getUserById} from "@/lib/db/data/user";
+import {getTwoFactorConfirmationByUserId} from "@/lib/db/data/two-factor-confirmation";
+import {getAccountByUserId} from "@/lib/db/data/account";
 import {DrizzleAdapter} from "@auth/drizzle-adapter";
 import {twoFactorConfirmations, type UserRole, users} from "@/lib/db/schemas/auth";
 import {eq} from "drizzle-orm";
-import {mysqlTableCreator} from "drizzle-orm/mysql-core";
+import {sqliteTableCreator} from "drizzle-orm/sqlite-core";
 
-export const mysqlTable = mysqlTableCreator((name) => `${process.env.DB_PREFIX}${name}`);
+export const sqliteTable = sqliteTableCreator((name) => `${process.env.DB_PREFIX}${name}`);
 
 export const {
-    handlers: { GET, POST },
+    handlers: {GET, POST},
     auth,
     signIn,
     signOut,
@@ -24,14 +24,14 @@ export const {
         error: "/error",
     },
     events: {
-        async linkAccount({ user }) {
+        async linkAccount({user}) {
             await db.update(users)
-                .set({ emailVerified: new Date() })
+                .set({emailVerified: new Date()})
                 .where(eq(users.id, user.id))
         }
     },
     callbacks: {
-        async signIn({ user, account }) {
+        async signIn({user, account}) {
             // Allow OAuth without email verification
             if (account?.provider !== "credentials") return true;
 
@@ -52,7 +52,7 @@ export const {
 
             return true;
         },
-        async session({ token, session }) {
+        async session({token, session}) {
             if (token.sub && session.user) {
                 session.user.id = token.sub;
             }
@@ -73,7 +73,7 @@ export const {
 
             return session;
         },
-        async jwt({ token }) {
+        async jwt({token}) {
             if (!token.sub) return token;
 
             const existingUser = await getUserById(token.sub);
@@ -93,7 +93,7 @@ export const {
             return token;
         }
     },
-    adapter: DrizzleAdapter(db, mysqlTable),
-    session: { strategy: "jwt" },
+    adapter: DrizzleAdapter(db, sqliteTable),
+    session: {strategy: "jwt"},
     ...authConfig,
 });

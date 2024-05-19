@@ -82,7 +82,7 @@ export const settings = async (
         .set({
             name: values.name,
             email: values.email,
-            isTwoFactorEnabled: values.isTwoFactorEnabled ? 1 : 0,
+            isTwoFactorEnabled: !!values.isTwoFactorEnabled,
             role: values.role,
             password: values.password,
         })

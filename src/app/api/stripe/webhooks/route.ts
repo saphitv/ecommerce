@@ -14,7 +14,7 @@ export async function POST(req: Request) {
   }
 
   try {
-    let event = getServerStripe().webhooks.constructEvent(
+    getServerStripe().webhooks.constructEvent(
       req.body,
       sig,
       process.env.STRIPE_SECRET_KEY,

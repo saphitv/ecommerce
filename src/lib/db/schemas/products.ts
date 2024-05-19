@@ -28,8 +28,8 @@ export const sales = sqlitelTable("sales", {
   stripePaymentIntentId: text("stripePaymentIntentId", { length: 255 }),
   stripePaymentStatus: text("stripeStatus", { length: 255 }).notNull(),
   amount: integer("amount").notNull(),
-  createdAt: integer("createdAt", { mode: "timestamp" }).default(sql`(CURRENT_TIMESTAMP)`),
-  updatedAt: integer("updatedAt", { mode: "timestamp" }).default(sql`(CURRENT_TIMESTAMP)`),
+  createdAt: text("createdAt").default(sql`(CURRENT_TIMESTAMP)`),
+  updatedAt: text("updatedAt").default(sql`(CURRENT_TIMESTAMP)`),
 });
 
 export const productSales = sqlitelTable(
