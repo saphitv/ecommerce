@@ -1,3 +1,10 @@
+## Nuove Features
+#### 🛍 Possibilita di aggiungere prodotti 
+#### 🎆 Ogni prodotto ha un'immagine 
+#### 💸 Possibilità di acquistare prodotti tramite stripe
+#### 📋 Poter vedere gli ordini effettuati
+#### 🎉 Nuova UI per le varie pagine
+
 ## Come iniziare
 
 Prima di poter iniziare a sviluppare è necessario installare le dipendenze del progetto. Per farlo è necessario avere installato [Node.js](https://nodejs.org/en/) e [npm](https://www.npmjs.com/).
@@ -36,17 +43,22 @@ DB_PREFIX=next_auth_
 DB_HOST=127.0.0.1
 DB_PORT=3306
 USER=root
-DATABASE=
+DATABASE=next-auth
+DB_PREFIX=
 PASSWORD=
 LOCAL_DATABASE_URL=mysql://root:@localhost:3306/next-auth
 
-# Se si utilizza planetscale come database remoto
-DATABASE_URL=
-DATABASE_URL_DEV=
+# Se si utilizza turso come database remoto
+TURSO_CONNECTION_URL
+TURSO_AUTH_TOKEN=
 
 # Chiavi per uploadthing (servizio di upload immagini)
 UPLOADTHING_SECRET=
 UPLOADTHING_APP_ID=
+
+# Chiavi per stripe
+STRIPE_SECRET_KEY=
+NEXT_PUBLIC_STRIPE_KEY=
 ```
 
 ### Link per ottenere le chiavi
@@ -54,9 +66,12 @@ UPLOADTHING_APP_ID=
 - [GitHub](https://github.com/settings/apps)
 - [Uploadthing](https://uploadthing.com/)
 - [Resend](https://resend.com/)
-- [Planetscale](https://planetscale.com/)
+- [Turso](https://turso.tech/)
+- [Stripe](https://docs.stripe.com/keys)
 
 Come URL di callback per i provider di autenticazione bisogna inserire `http://localhost:3000/api/auth/callback/<provider>`.
+
+Se si vuole utilizzare online per stripe bisogna attivare il webhook `checkout.session.completed`.
 
 ### Database
 Prima di generare la struttura assicurarsi che non ci siano file generati nella path `src/lib/db/migrations/*`.
@@ -68,16 +83,14 @@ bun run db:generate & bun run db:migrate
 ```
 
 #### Inizializzare prodotti stripe
-Per inizializzare i prodotti stripe è necessario andare nella cartella `src/lib/db/init` e all'interno del file `stripe.ts`: 
-- inserire la secret key di strip
-- modificare l'id statico quando si crea un prodotto
+Per inizializzare i prodotti stripe bisogna utilizzare il comando 
+```bash
+bun run db:init-stripe
+```
+Prima di utilizzare il comando bisogna modificare il file `src/lib/db/init/stripe.ts` con le seguenti modifiche:
+- modificare l'id statico quando si crea un prodotto (se si vuole assegnare i prodotti a una specifica persona)
 - in caso modificare l'url del database
 
-Successivamente eseguire il comando seguente comando per poter aggiungere i dati al database.
-```bash
-cd src/lib/db/init
-bun run stripe.ts
-```
 
 ## Sviluppo
 Per avviare il server di sviluppo è necessario eseguire il comando:
