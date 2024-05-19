@@ -50,7 +50,7 @@ export default function Order({order}: { order: GetProducts }) {
                             <CarouselContent className='w-[300px]'>
                                 {order.map(o => (
                                     <>
-                                        {o.products?.image && <CarouselItem key={o.products?.id}>
+                                        {o.products?.image && <CarouselItem key={o.products?.id + o.sales?.id!}>
                                             <Image
                                                 src={o.products?.image}
                                                 alt={'Image product' + o.products?.name}

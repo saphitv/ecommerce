@@ -7,6 +7,7 @@ import {db} from "@/lib/db";
 import Order from "./_components/order";
 import {PackageIcon, ShoppingBagIcon} from "lucide-react";
 import {Card, CardContent} from "@/components/ui/card";
+import {DateTime} from "luxon";
 
 export default async function Page() {
     const user = await currentUser();
@@ -15,10 +16,9 @@ export default async function Page() {
     const orders = (await db
             ?.select()
             .from(productSales)
-            .leftJoin(sales, eq(productSales.saleId, sales.id))
-            .leftJoin(products, eq(products.id, productSales.productId))
+            .innerJoin(sales, eq(productSales.saleId, sales.id))
+            .innerJoin(products, eq(products.id, productSales.productId))
             .where(eq(sales.userId, user.id))
-            .orderBy(asc(sales.createdAt))
     ) as any as GetProducts;
 
     for (let order of orders) {
@@ -48,8 +48,13 @@ export default async function Page() {
             <div className='space-y-4'>
 
                 {ordersHash && Object.entries(ordersHash).length > 0 ?
-                    Object.entries(ordersHash).map(
-                        ([key, value], index) => <Order key={index} order={value}/>
+                    Object.entries(ordersHash)
+                        .sort(([_c, curr], [_p, prev]) =>
+                            // @ts-ignore
+                            DateTime.fromSQL(curr[0].sales.createdAt as string).diff(DateTime.fromSQL(prev[0].sales.createdAt as string)).toMillis() > 0  ? -1 : 1
+                        )
+                        .map(
+                        ([key, value], index) => <Order key={index + key} order={value}/>
                     )
                     : <EmptyOrderState/>
                 }
