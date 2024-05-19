@@ -63,7 +63,8 @@ export async function POST(req: Request) {
 
         void await getServerStripe().invoices.retrieve(
           session.invoice,
-          async (err: any, invoice: any) => {
+            async (err: any, invoice: any) => {
+            console.log("invoice", invoice)
             if (err) {
               console.error(err);
             }
@@ -73,8 +74,7 @@ export async function POST(req: Request) {
             // console.log("data inv", data);
 
             void await data.forEach(async (line: any) => {
-              const product = (
-                await db
+              const product = (await db
                   .select({ id: products.id })
                   .from(products)
                   .where(eq(products.stripePriceId, line.price.id))
@@ -97,6 +97,10 @@ export async function POST(req: Request) {
           },
         );
 
+        return new Response("Success!", {
+          status: 200,
+        });
+
         break;
     }
   } catch (error: any) {
@@ -104,10 +108,6 @@ export async function POST(req: Request) {
       status: 400,
     });
   }
-
-  return new Response("Success!", {
-    status: 200,
-  });
 }
 
 export function GET() {
