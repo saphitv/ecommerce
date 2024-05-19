@@ -4,7 +4,7 @@ import {drizzle} from "drizzle-orm/libsql";
 import {schema} from "@/lib/db";
 
 const getServerStripe = () => {
-    return require("stripe")("STRIPE_PRIVATE_KEY")
+    return require("stripe")(process.env.STRIPE_SECRET_KEY!)
 };
 
 const client = createClient({
