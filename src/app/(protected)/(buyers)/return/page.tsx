@@ -6,6 +6,8 @@ import {CheckCircleIcon, XCircleIcon} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {useCart} from "@/hooks/use-cart";
 import Cookies from "js-cookie";
+import Link from "next/link";
+import {Skeleton} from "@/components/ui/skeleton";
 
 export default function Page() {
     const searchParams = useSearchParams()
@@ -31,8 +33,10 @@ export default function Page() {
                         <CheckCircleIcon className="h-12 w-12 text-green-500"/>
                         <div className="space-y-4">
                             <h1 className="font-bold text-3xl">Thank you for your order!</h1>
-                            <p className="text-gray-500 dark:text-gray-400">Your order has been confirmed and will be
-                                processed soon. We have sended the receipt at {data?.customer_email}</p>
+                            {data?.customer_email && false ? <p className="text-gray-500 dark:text-gray-400">Your order has been confirmed and will be
+                                processed soon. We have sended the receipt at {data?.customer_email}</p> :
+                            <Skeleton className='h-[20px] w-[400px]' />
+                            }
                         </div>
                     </> :
                     <>
@@ -44,7 +48,11 @@ export default function Page() {
                     </>
                 }
 
-                <Button onClick={() => window.location.href = '/'} size={"lg"}>Continue Shopping</Button>
+                <div className='flex gap-4'>
+                    <Link href={'/'}><Button size={"lg"} variant='secondary'>Continue Shopping</Button></Link>
+                    <Link href={'/orders'}><Button size={"lg"}>View order</Button></Link>
+                </div>
+
             </div>
         </div>
     );
