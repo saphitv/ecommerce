@@ -1,12 +1,10 @@
 import { columns } from "./columns"
 import { DataTable } from "./data-table"
-import {currentUser} from "@/lib/auth";
 import {Product, products} from "@/lib/db/schemas/products";
 import {db} from "@/lib/db";
-import {eq} from "drizzle-orm";
 
 async function getData(): Promise<Product[]> {
-    const user = (await currentUser())!
+    // const user = (await currentUser())!
 
 
     // @ts-ignore the type definitions for drizzle-orm are incorrect
@@ -19,15 +17,13 @@ async function getData(): Promise<Product[]> {
         createdAt: products.createdAt,
         updatedAt: products.updatedAt,
     }).from(products)
-        .where(eq(products.userId, user.id));
+        // .where(eq(products.userId, user.id));
 }
 
 export default async function ProductTable() {
     const data = (await getData())
 
     return (
-
             <DataTable columns={columns} data={data} />
-
     )
 }

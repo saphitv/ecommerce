@@ -22,7 +22,7 @@ export const RoleGate = ({
     if (role !== allowedRole) {
         return (
             <>
-                <NoPermission />
+                <NoPermission/>
                 <Button>
                     <Link href={'/settings'}>Go back</Link>
                 </Button>
@@ -46,25 +46,20 @@ function NoPermission() {
                 <h1 className="text-3xl font-bold tracking-tighter text-gray-900 dark:text-gray-50">Access Denied</h1>
                 <p className="text-gray-500 dark:text-gray-400">
                     You do not have permission to view this content. Please contact the site administrator if you
-                    believe this is an error. (Demo purposes only: click the button below to navigate to the settings page, and then change your role to admin)
+                    believe this is an error. (Demo purposes only: click the button below to navigate to the settings
+                    page, and then change your role to admin)
                 </p>
                 <div className="flex flex-row gap-2 sm:flex-row">
-                    <Button
-                        className='w-full'
-                        variant="outline"
-                    >
-                        <Link href={'/'}>
+                    <Link href={'/'} className='w-full'>
+                        <Button variant="outline" className='w-full'>
                             Go Back
-                        </Link>
-                    </Button>
-                    <Button
-                     className='w-full'><Link
-                        href={'/settings'}
-                    >
-                        Get Access
-                    </Link></Button>
-
-
+                        </Button>
+                    </Link>
+                    <Link href={'/settings'} className='w-full'>
+                        <Button className='w-full'>
+                            Get Access
+                        </Button>
+                    </Link>
 
 
                 </div>

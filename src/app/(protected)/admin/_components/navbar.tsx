@@ -3,18 +3,17 @@ import * as icons from "@radix-ui/react-icons";
 import {usePathname, useRouter} from "next/navigation";
 import {cn} from "@/lib/utils";
 import {UserButton} from "@/components/auth/user-button";
-import {ShoppingCart} from "lucide-react";
+import {ShoppingCart, UserIcon} from "lucide-react";
 
 export default function NavBar(){
     const pathname = usePathname()
     const router = useRouter()
 
     const pages = [
-        { name: 'Public Products', href: '/', icon: ShoppingCart },
+        { name: 'Public section', href: '/', icon: UserIcon },
         /* { name: 'Dashboard', href: '/admin', icon: icons.HomeIcon }, */
-        { name: 'My Products', href: '/admin/product', icon: icons.FileTextIcon },
+        { name: 'Products', href: '/admin/product', icon: icons.FileTextIcon },
         { name: 'Add Product', href: '/admin/product/add', icon: icons.PlusIcon },
-        { name: 'User', href: '/settings', icon: icons.PersonIcon}
     ]
 
     return (

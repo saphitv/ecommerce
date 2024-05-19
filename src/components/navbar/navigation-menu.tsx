@@ -33,7 +33,7 @@ export function Navigationmenu() {
     return (
         <NavigationMenu className=''>
             <NavigationMenuList>
-                <NavigationMenuItem>
+                {false && <NavigationMenuItem>
                     <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
                     <NavigationMenuContent>
                         <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
@@ -66,7 +66,7 @@ export function Navigationmenu() {
                             </ListItem>
                         </ul>
                     </NavigationMenuContent>
-                </NavigationMenuItem>
+                </NavigationMenuItem>}
                 <NavigationMenuItem>
                     <NavigationMenuTrigger>Admins</NavigationMenuTrigger>
                     <NavigationMenuContent>
@@ -82,13 +82,6 @@ export function Navigationmenu() {
                             ))}
                         </ul>
                     </NavigationMenuContent>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                    <Link href="/docs" legacyBehavior passHref>
-                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                            Documentation
-                        </NavigationMenuLink>
-                    </Link>
                 </NavigationMenuItem>
             </NavigationMenuList>
         </NavigationMenu>

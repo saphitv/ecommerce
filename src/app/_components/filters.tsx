@@ -38,7 +38,7 @@ export default function Filters(){
         <div className="w-72 min-w-64 p-4 h-max">
             <Form {...form}>
                 <form className='space-y-2 sticky top-20' onSubmit={form.handleSubmit(onSubmit)}>
-                    <h2 className="text-lg font-semibold">Filters</h2>
+                    <h2 className="text-lg font-semibold">Filters (Still in development)</h2>
                     <Separator orientation={"horizontal"} className="my-2"/>
                     <FormField
                         control={form.control}

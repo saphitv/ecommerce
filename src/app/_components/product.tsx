@@ -33,9 +33,9 @@ export default function Product({product}: { product: Product }) {
                             objectFit="cover"
                             className="h-full w-full rounded-md object-cover"
                         />
-                        <Button onClick={e => setIsFavourite(prev => !prev)} className='bg-transparent hover:bg-transparent py-1 min-[400px]:py-2 px-2 min-[400px]:px-4 cursor-pointer rounded-lg font-medium text-base leading-7 text-white absolute top-2 right-0 z-10' variant='ghost'>
+                        {false && <Button onClick={e => setIsFavourite(prev => !prev)} className='bg-transparent hover:bg-transparent py-1 min-[400px]:py-2 px-2 min-[400px]:px-4 cursor-pointer rounded-lg font-medium text-base leading-7 text-white absolute top-2 right-0 z-10' variant='ghost'>
                             <Heart className={cn('w-10 h-5', isFavourite ? 'text-red-500' : 'text-white')}/>
-                        </Button>
+                        </Button>}
                     </AspectRatio>
                 </div>
 

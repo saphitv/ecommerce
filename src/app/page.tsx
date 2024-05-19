@@ -5,6 +5,7 @@ import {Separator} from "@/components/ui/separator";
 import Filters from "@/app/_components/filters";
 import SearchSection from "@/app/_components/search-section";
 import {redirect} from "next/navigation";
+import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
 
 
 export default async function Home() {
@@ -25,7 +26,14 @@ export default async function Home() {
                 </div>
 
                 <Separator orientation={"vertical"} className="h-auto"/>
-                <Filters/>
+
+                <div className=''>
+
+                    <div className='absolute bg-gray-50 w-full h-full'></div>
+                    <div className='absolute w-full h-full z-50 cursor-not-allowed'></div>
+                    <Filters/>
+                </div>
+
             </div>
 
         </>

@@ -16,12 +16,15 @@ export const columns: ColumnProduct[] = [
     {
         accessorKey: "name",
         header: "Name",
-        type: "string"
+        type: "string",
+        meta: {
+            nowrap: true
+        }
     },
     {
         accessorKey: "description",
         header: "Description",
-        type: "string"
+        type: "string",
     },
     {
         accessorKey: "price",
@@ -31,11 +34,17 @@ export const columns: ColumnProduct[] = [
     {
         accessorKey: "createdAt",
         header: "Created At",
-        type: "date"
+        type: "date",
+        meta: {
+            nowrap: true
+        }
     },
     {
         accessorKey: "updatedAt",
         header: "Last Updated At",
-        type: "date"
+        type: "date",
+        meta: {
+            nowrap: true
+        }
     },
 ]
