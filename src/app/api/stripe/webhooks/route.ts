@@ -61,7 +61,7 @@ export async function POST(req: Request) {
           userId: user.id,
         });
 
-        getServerStripe().invoices.retrieve(
+        void await getServerStripe().invoices.retrieve(
           session.invoice,
           async (err: any, invoice: any) => {
             if (err) {
@@ -72,7 +72,7 @@ export async function POST(req: Request) {
 
             // console.log("data inv", data);
 
-            await data.forEach(async (line: any) => {
+            void await data.forEach(async (line: any) => {
               const product = (
                 await db
                   .select({ id: products.id })
@@ -91,7 +91,7 @@ export async function POST(req: Request) {
               console.log("line", prodSale);
 
 
-              await db.insert(productSales).values(prodSale);
+              void await db.insert(productSales).values(prodSale);
 
             });
           },
