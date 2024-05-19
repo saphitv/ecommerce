@@ -94,12 +94,14 @@ export async function POST(req: Request) {
               void await db.insert(productSales).values(prodSale);
 
             });
+
+            return new Response("Success!", {
+                status: 200,
+            });
           },
         );
 
-        return new Response("Success!", {
-          status: 200,
-        });
+
 
         break;
     }
