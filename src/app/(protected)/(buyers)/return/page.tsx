@@ -33,7 +33,7 @@ export default function Page() {
                         <CheckCircleIcon className="h-12 w-12 text-green-500"/>
                         <div className="space-y-4">
                             <h1 className="font-bold text-3xl">Thank you for your order!</h1>
-                            {data?.customer_email && false ? <p className="text-gray-500 dark:text-gray-400">Your order has been confirmed and will be
+                            {data?.customer_email ? <p className="text-gray-500 dark:text-gray-400">Your order has been confirmed and will be
                                 processed soon. We have sended the receipt at {data?.customer_email}</p> :
                             <Skeleton className='h-[20px] w-[400px]' />
                             }
