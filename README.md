@@ -1,4 +1,4 @@
-## Nuove Features
+## Nuove Funzionalità
 #### 🛍 Possibilita di aggiungere prodotti 
 #### 🎆 Ogni prodotto ha un'immagine 
 #### 💸 Possibilità di acquistare prodotti tramite stripe
