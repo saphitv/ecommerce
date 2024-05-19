@@ -4,10 +4,16 @@ import ProductList from "@/app/_components/products-list";
 import {Separator} from "@/components/ui/separator";
 import Filters from "@/app/_components/filters";
 import SearchSection from "@/app/_components/search-section";
+import {redirect} from "next/navigation";
 
 
 export default async function Home() {
     const user = await currentUser()
+
+    if(!user) {
+        redirect("/login")
+    }
+
     return (
 
         <>

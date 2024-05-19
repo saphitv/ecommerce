@@ -8,6 +8,7 @@ import {Input} from "@/components/ui/input";
 import Cart from "@/app/_components/cart/cart";
 import {SearchProductBar} from "@/app/_components/search-product-bar";
 import NavbarLogo from "@/components/navbar/navbar-logo";
+import {currentUser} from "@/lib/auth";
 
 export function Navbar({showSearchBar}: {showSearchBar?: boolean}) {
     return (

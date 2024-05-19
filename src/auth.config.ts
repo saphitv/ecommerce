@@ -6,7 +6,6 @@ import Google from "next-auth/providers/google";
 
 import { LoginSchema } from "@/schemas/auth";
 import { getUserByEmail } from "@/lib/db/data/user";
-import {mysqlTableCreator} from "drizzle-orm/mysql-core";
 
 
 

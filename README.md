@@ -115,17 +115,22 @@ Il progetto è diviso in nelle seguenti cartelle:
 - [Auth.js](https://authjs.dev/)
 - [Uploadthing](https://uploadthing.com/)
 - [Resend](https://resend.com/)
-- [Planetscale](https://planetscale.com/)
+- [Turso](https://turso.tech/)
 - [Bun](https://bun.sh/)
+- [Stripe](https://stripe.com/)
 
-comando per reindirizzare il traffico da stripe a localhost
+comando per reindirizzare il traffico da stripe a localhost. Per poter utilizzare stripe bisogna scaricare la cli di stripe e fare il login.
 ```bash
 stripe listen --forward-to localhost:3000/api/stripe/webhooks --skip-verify
+o
+bun run stripe
 ```
 
 Avviare il database in fase di sviluppo
 ```bash
 turso dev --db-file sqlite.db
+o
+bun run db:start
 ```
 
 # Docker

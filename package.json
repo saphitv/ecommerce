@@ -13,7 +13,8 @@
     "db:generate": "drizzle-kit generate:sqlite",
     "db:introspect": "drizzle-kit introspect:sqlite",
     "db:start": "turso dev --db-file sqlite.db",
-    "stripe": "stripe listen --forward-to localhost:3000/api/stripe/webhooks --skip-verify"
+    "stripe": "stripe listen --forward-to localhost:3000/api/stripe/webhooks --skip-verify",
+    "db:init-stripe": "bun run ./src/lib/db/init/stripe.ts"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^0.3.14",
