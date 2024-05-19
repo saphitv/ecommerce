@@ -1,7 +1,7 @@
 import {currentUser} from "@/lib/auth";
 import {GetProducts, productSales, products, sales} from "@/lib/db/schemas/products";
 import {getBaseUrl} from "@/lib/utils";
-import {desc, eq} from "drizzle-orm";
+import {asc, desc, eq} from "drizzle-orm";
 import {redirect} from "next/navigation";
 import {db} from "@/lib/db";
 import Order from "./_components/order";
@@ -18,7 +18,7 @@ export default async function Page() {
             .leftJoin(sales, eq(productSales.saleId, sales.id))
             .leftJoin(products, eq(products.id, productSales.productId))
             .where(eq(sales.userId, user.id))
-            .orderBy(desc(sales.createdAt))
+            .orderBy(asc(sales.createdAt))
     ) as any as GetProducts;
 
     for (let order of orders) {
@@ -26,7 +26,7 @@ export default async function Page() {
             console.warn("Order does not have a productSale", order)
             continue;
         }
-        ;
+
         if (!ordersHash.hasOwnProperty(order.productSales?.saleId))
             ordersHash[order.productSales.saleId] = [];
         ordersHash[order.productSales.saleId].push(order);
